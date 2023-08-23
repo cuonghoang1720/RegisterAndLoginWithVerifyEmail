@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Page</title>
+    <link th:href="@{static/style.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <section class="vh-100 bg-image"
+             style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+        <script>
+            function validateForm(){
+                const email = document.getElementById("form3Example3cg").value;
+                const password = document.getElementById("form3Example4cg").value;
+                const repeatPassword = document.getElementById("form3Example4cdg").value;
+
+                // Regular expression for email validation
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailRegex.test(email)) {
+                    alert("Invalid email format");
+                    return false;
+                }
+
+                if (password.length < 8 || password.length > 24) {
+                    alert("Password must be between 8 and 24 characters");
+                    return false;
+                }
+
+                // Password constraints using regular expressions
+                const uppercaseRegex = /[A-Z]/;
+                const lowercaseRegex = /[a-z]/;
+                const digitRegex = /[0-9]/;
+                const specialCharRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/;
+
+                if (!uppercaseRegex.test(password) || !lowercaseRegex.test(password) || !digitRegex.test(password) || !specialCharRegex.test(password)) {
+                    alert("Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character");
+                    return false;
+                }
+
+                if (password !== repeatPassword) {
+                    alert("Passwords do not match");
+                    return false;
+                }
+
+                if (!agreeCheckbox.checked) {
+                    alert("You must agree to the Terms of Service");
+                    return false;
+                }
+
+                const sessionMsg = document.getElementById("sessionMsg");
+                const agreeCheckbox = document.getElementById("form2Example3cg");
+
+                if (sessionMsg.textContent === 'This email already exists' ) {
+                    sessionMsg.style.color = 'red';
+                } else if(sessionMsg.textContent === 'Something went wrong') {
+                    sessionMsg.style.color = 'red';
+                } else {
+                    sessionMsg.style.color = 'green';
+                }
+            }
+        </script>
+        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body p-5">
+                                <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+
+                                <form action="saveUser" method="post" onsubmit="return validateForm()">
+
+                                    <th:block th:if="${session.msg}">
+                                        <!-- Message Display -->
+                                        <p id="sessionMsg" class="fs-4 text-center">
+                                            [[${session.msg}]]
+                                        </p>
+                                        <th:block th:text="${@userServiceImpl.removeSessionMessage()}"></th:block>
+                                    </th:block>
+
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="form3Example1cg">Your Name</label>
+                                        <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="name"/>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="form3Example3cg" >Your Email</label>
+                                        <input type="email" id="form3Example3cg"  class="form-control form-control-lg" name="email"/>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="form3Example4cg">Password</label>
+                                        <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="password"/>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="form3Example4cdg">Repeat your password</label>
+                                        <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="form-check d-flex justify-content-center mb-5">
+                                        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
+                                        <label class="form-check-label" for="form2Example3g">
+                                            I agree all statements in <a href="#" class="text-body"><u>Terms of service</u></a>
+                                        </label>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit"
+                                                class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                                    </div>
+
+                                    <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="signin"
+                                                                                                            class="fw-bold text-body"><u>Login here</u></a></p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

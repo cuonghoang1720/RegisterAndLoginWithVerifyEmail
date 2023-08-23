@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jwt_security
+    username: postgres
+    password: 1
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  logging:
+    level:
+      org.springframework.security: DEBUG
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: cuonghoang1720@gmail.com
+    password: czqvnkaowvblwgoy
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: Iv1.7311bb4208cc182a
+            clientSecret: 4502ade23a5fe109ae2ea666b86a88a91b619e1f
+          google:
+            clientId: 786809469335-qnqejsv5q5d9ajmv28rjfa23o5cbcs82.apps.googleusercontent.com
+            clientSecret: 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
